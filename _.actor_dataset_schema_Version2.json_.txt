@@ -1,0 +1,54 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "title": {
+            "type": "string",
+            "title": "Newsletter Title"
+        },
+        "author": {
+            "type": "string",
+            "title": "Author Name"
+        },
+        "subscribers": {
+            "type": "string",
+            "title": "Subscribers Count"
+        },
+        "description": {
+            "type": "string",
+            "title": "Description"
+        },
+        "url": {
+            "type": "string",
+            "title": "Newsletter URL"
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": ["title", "author", "subscribers", "url"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "title": {
+                        "label": "Newsletter Title",
+                        "format": "text"
+                    },
+                    "author": {
+                        "label": "Author Name",
+                        "format": "text"
+                    },
+                    "subscribers": {
+                        "label": "Subscribers",
+                        "format": "number"
+                    },
+                    "url": {
+                        "label": "URL",
+                        "format": "link"
+                    }
+                }
+            }
+        }
+    }
+}

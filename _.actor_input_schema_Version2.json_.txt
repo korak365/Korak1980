@@ -1,0 +1,24 @@
+{
+    "title": "Input schema for Substack/Newsletter Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "List of public newsletter directories to start scraping from.",
+            "editor": "requestListSources",
+            "prefill": [
+                {
+                    "url": "https://substack.com/discover"
+                }
+            ]
+        },
+        "maxRequestsPerCrawl": {
+            "title": "Max Requests per Crawl",
+            "type": "integer",
+            "description": "Limit the number of pages the scraper will visit.",
+            "default": 100
+        }
+    }
+}

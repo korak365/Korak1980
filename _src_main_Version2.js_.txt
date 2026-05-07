@@ -1,0 +1,42 @@
+// Import Apify SDK and dependencies
+import { Actor } from 'apify';
+import { CheerioCrawler, Dataset } from 'crawlee';
+
+await Actor.init();
+
+const { startUrls = ['https://substack.com/discover'], maxRequestsPerCrawl = 100 } = (await Actor.getInput()) ?? {};
+
+const proxyConfiguration = await Actor.createProxyConfiguration();
+
+const crawler = new CheerioCrawler({
+    proxyConfiguration,
+    maxRequestsPerCrawl,
+    async requestHandler({ enqueueLinks, request, $, log }) {
+        log.info(`Now scraping: ${request.loadedUrl}`);
+
+        // Parse newsletters on the page
+        const newsletters = $('.newsletter-item'); // CSS selector for Substack newsletter item
+
+        const extractedData = newsletters.map((index, element) => {
+            const title = $(element).find('.title').text().trim();
+            const author = $(element).find('.author').text().trim();
+            const subscribers = $(element).find('.stats').text().match(/\d+/)?.[0] || 'Not available';
+            const description = $(element).find('.description').text().trim();
+            const url = $(element).find('a').attr('href');
+
+            return { title, author, subscribers, description, url };
+        }).get();
+
+        // Save data to Dataset
+        await Dataset.pushData(extractedData);
+
+        // Enqueue additional links
+        await enqueueLinks({
+            selector: '.pagination a', // Assuming a pagination selector exists
+        });
+    },
+});
+
+await crawler.run(startUrls);
+
+await Actor.exit();

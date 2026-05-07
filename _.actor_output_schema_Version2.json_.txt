@@ -1,0 +1,11 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Output schema for Substack/Newsletter Scraper",
+    "properties": {
+        "overview": {
+            "type": "string",
+            "title": "Overview",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+        }
+    }
+}
